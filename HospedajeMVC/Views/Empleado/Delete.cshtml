@@ -1,0 +1,113 @@
+@model HospedajeMvc.Models.Empleado
+
+@{
+    ViewData["Title"] = "Eliminar Colaborador";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-8">
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm border-2 rounded-3 mb-4" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-octagon-fill fs-4 me-2"></i>
+                        <div>
+                            <strong class="d-block">Operación Denegada</strong>
+                            @TempData["ErrorMessage"]
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="card shadow-lg border-0 rounded-3">
+
+                <div class="card-header bg-danger text-white text-center py-4">
+                    <div class="fs-1 mb-1"><i class="bi bi-person-x-fill"></i></div>
+                    <h3 class="mb-0 fw-bold">¿Despedir o Eliminar Colaborador?</h3>
+                    <p class="text-white-50 small mb-0">Confirme si desea remover de forma permanente la ficha técnica de este empleado.</p>
+                </div>
+
+                <div class="card-body p-5">
+
+                    <h5 class="text-danger border-bottom pb-2 mb-3 fw-bold"><i class="bi bi-card-text"></i> Identidad y Datos Personales</h5>
+                    <div class="bg-light p-3 rounded-3 mb-4 border-start border-danger border-3">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <span class="text-muted small d-block">Identificación (ID):</span>
+                                <span class="fw-bold text-dark">@Html.DisplayFor(model => model.EmpleadoId)</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted small d-block">Nombre Completo:</span>
+                                <span class="fw-bold text-dark">@Model.NombreEmpleado @Model.PrimerApellidoEmpleado @Model.SegundoApellidoEmpleado</span>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <span class="text-muted small d-block">Fecha de Nacimiento:</span>
+                                <span class="fw-bold text-dark">
+                                    @(Model.FechaNacimientoEmpleado != null ? Model.FechaNacimientoEmpleado.ToString("dd/MM/yyyy") : "---")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="text-danger border-bottom pb-2 mb-3 fw-bold"><i class="bi bi-briefcase-fill"></i> Perfil Profesional y Nómina</h5>
+                    <div class="bg-light p-3 rounded-3 mb-4 border-start border-danger border-3">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <span class="text-muted small d-block">Puesto / Categoría:</span>
+                                <span class="badge bg-dark text-white px-2 py-1 mt-1 fw-semibold text-uppercase">@Html.DisplayFor(model => model.Categoria)</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="text-muted small d-block">Salario Mensual:</span>
+                                <span class="fw-bold text-success">₡@String.Format("{0:N2}", Model.SalarioMensual)</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="text-muted small d-block">Fecha de Ingreso:</span>
+                                <span class="fw-bold text-dark">
+                                    @(Model.FechaIngreso != null ? Model.FechaIngreso.ToString("dd/MM/yyyy") : "---")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="text-danger border-bottom pb-2 mb-3 fw-bold"><i class="bi bi-geo-alt-fill"></i> Domicilio Registrado</h5>
+                    <div class="bg-light p-3 rounded-3 mb-4 border-start border-danger border-3">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <span class="text-muted small d-block">Provincia:</span>
+                                <span class="fw-semibold text-dark">@Html.DisplayFor(model => model.Provincia)</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="text-muted small d-block">Cantón:</span>
+                                <span class="fw-semibold text-dark">@Html.DisplayFor(model => model.Canton)</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="text-muted small d-block">Distrito:</span>
+                                <span class="fw-semibold text-dark">@Html.DisplayFor(model => model.Distrito)</span>
+                            </div>
+                            <div class="col-12 mt-2 pt-2 border-top border-white">
+                                <span class="text-muted small d-block">Dirección Exacta (Otras señas):</span>
+                                <p class="mb-0 text-dark fw-normal style=" text-align: justify;"">@Html.DisplayFor(model => model.DireccionExacta)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="EmpleadoId" />
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-trash-fill"></i> Confirmar Eliminación Permanente
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary text-center">
+                                Cancelar y Mantener Registro
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

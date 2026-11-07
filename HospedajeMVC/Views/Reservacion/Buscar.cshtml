@@ -1,0 +1,144 @@
+﻿@model IEnumerable<HospedajeMvc.Models.Reservacion>
+
+@{
+    ViewData["Title"] = "Módulo de Búsqueda de Reservaciones";
+}
+
+<div class="container mt-4">
+
+    <!-- Encabezado Estilizado -->
+    <div class="border-bottom pb-3 mb-4">
+        <h2 class="fw-bold text-dark mb-1">
+            <i class="bi bi-search text-primary"></i> Módulo de Búsqueda de Reservaciones
+        </h2>
+        <p class="text-muted small mb-0">Busque una reservación de manera independiente por medio del código de reserva o la identificación del cliente.</p>
+    </div>
+
+    <!-- Formulario de Búsqueda -->
+    <div class="card shadow-sm border-0 p-4 bg-light mb-4 rounded-3">
+        <form asp-action="Buscar" method="get" class="row g-3 align-items-center">
+            <div class="col-md-9">
+                <div class="input-group">
+                    <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-search"></i></span>
+                    <input type="text" name="criterioBusqueda" class="form-control border-start-0 ps-0"
+                           placeholder="Digite el código de reservación (ej: RES-0001) o la identificación del cliente..."
+                           value="@ViewData["CriterioActual"]" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm">
+                    <i class="bi bi-sliders"></i> Procesar Búsqueda
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de Resultados -->
+    <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-semibold"><i class="bi bi-list-stars me-2"></i>Resultados Encontrados</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-uppercase fs-7 tracking-wider text-muted">
+                    <tr>
+                        <th class="ps-4">Código</th>
+                        <th class="text-center">Identificación Cliente</th>
+                        <th class="text-center">Habitación</th>
+                        <th class="text-center">Estancia (Noches)</th>
+                        <th class="text-center">Monto Total</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark">
+                                    <i class="bi bi-hash text-muted me-1"></i>@item.ReservacionId
+                                </td>
+                                <td class="text-center font-monospace text-muted">@item.ClienteId</td>
+                                <td class="text-center">
+                                    <span class="badge bg-light text-primary border border-primary-subtle px-3 py-2 fw-bold">
+                                        N° @item.HabitacionId
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <!-- CORREGIDO: Se calcula la duración utilizando la diferencia en días entre FechaSalida y FechaInicio -->
+                                    <span class="fw-semibold">@((item.FechaSalida - item.FechaInicio).Days) noches</span>
+                                    <!-- CORREGIDO: Cambiado FechaIngreso por FechaInicio -->
+                                    <small class="text-muted d-block font-monospace">(@item.FechaInicio.ToString("dd/MM") al @item.FechaSalida.ToString("dd/MM"))</small>
+                                </td>
+                                <td class="text-center fw-bold text-success">
+                                    @item.MontoTotal.ToString("C")
+                                </td>
+                                <td class="text-center">
+                                    <!-- CORREGIDO: Estilos adaptados estrictamente a los nombres de estado del requerimiento -->
+                                    @if (item.Estado != null && (item.Estado.ToLower() == "reservada" || item.Estado.ToLower() == "en proceso"))
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">@item.Estado</span>
+                                    }
+                                    else if (item.Estado != null && item.Estado.ToLower() == "finalizada")
+                                    {
+                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill">@item.Estado</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded-pill">@item.Estado</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="Edit" asp-route-id="@item.ReservacionId" class="btn btn-sm btn-outline-primary shadow-sm">
+                                        <i class="bi bi-pencil-fill"></i> Gestionar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else if (ViewData["CriterioActual"] != null)
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-danger fw-semibold">
+                                <i class="bi bi-exclamation-triangle d-block fs-2 mb-2"></i>
+                                No se encontraron reservaciones que coincidan con la búsqueda: "@ViewData["CriterioActual"]"
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-muted">
+                                <i class="bi bi-info-circle d-block fs-2 mb-2 text-primary"></i>
+                                Ingrese un criterio en la barra superior y presione "Procesar Búsqueda".
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Botón de Retorno -->
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary px-4">
+            <i class="bi bi-arrow-left-circle-fill me-1"></i> Regresar al Listado General
+        </a>
+    </div>
+</div>
+
+<style>
+    .fs-7 {
+        font-size: 0.82rem;
+    }
+
+    .tracking-wider {
+        letter-spacing: 0.05em;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(248, 249, 250, 0.85);
+    }
+</style>

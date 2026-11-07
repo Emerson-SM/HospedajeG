@@ -1,0 +1,86 @@
+@model HospedajeMvc.Models.Habitacion
+
+@{
+    ViewData["Title"] = "Modificar Habitación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-dark text-white text-center py-4">
+                    <h3 class="mb-0 fw-bold"><i class="bi bi-pencil-square"></i> Editar Habitación</h3>
+                    <small class="text-white-50">Modifique las características actuales</small>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 text-center"></div>
+
+                        <input type="hidden" asp-for="HabitacionId" />
+
+                        <div class="mb-3 bg-light p-3 rounded-3 border-start border-primary border-3">
+                            <span class="text-muted d-block small fw-bold">Número de Habitación (ID):</span>
+                            <span class="fs-5 fw-bold text-dark"><i class="bi bi-hash text-muted"></i> @Model.HabitacionId</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TipoHabitacion" class="form-label fw-bold"></label>
+                            <select asp-for="TipoHabitacion" class="form-select border-primary">
+                                <option value="">-- Seleccione el tipo --</option>
+                                <option value="Start Junior">Start Junior</option>
+                                <option value="Start Vista al Mar">Start Vista al Mar</option>
+                                <option value="Master Start">Master Start</option>
+                            </select>
+                            <span asp-validation-for="TipoHabitacion" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TarifaPorNoche" class="form-label fw-bold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-primary fw-bold text-success">$</span>
+                                <input asp-for="TarifaPorNoche" class="form-control border-primary fw-semibold text-success" />
+                            </div>
+                            <span asp-validation-for="TarifaPorNoche" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="PendientesMantenimiento" class="form-label fw-bold"></label>
+                            <textarea asp-for="PendientesMantenimiento" class="form-control" rows="2">@Model.PendientesMantenimiento</textarea>
+                            <span asp-validation-for="PendientesMantenimiento" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4 p-3 bg-light rounded-3 border">
+                            <div class="form-check form-switch mb-0">
+                                <input asp-for="TieneTvSatelital" class="form-check-input" type="checkbox" role="switch" id="switchTv">
+                                <label class="form-check-label fw-semibold text-dark ms-2" for="switchTv">
+                                    <i class="bi bi-tv text-primary"></i> ¿Dispone de TV Satelital?
+                                </label>
+                            </div>
+                            <span asp-validation-for="TieneTvSatelital" class="text-danger small"></span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-save-fill"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                Cancelar y Regresar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

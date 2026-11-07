@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Elementos de la solución/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="HospedajeAccesoDatos/HospedajeAccesoDatos.csproj" Id="7791193a-089f-4c73-919d-2942228de718" />
+  <Project Path="HospedajeAPI/HospedajeAPI.csproj" />
+  <Project Path="HospedajeMVC/HospedajeMVC.csproj" />
+</Solution>

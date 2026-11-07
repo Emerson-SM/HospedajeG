@@ -1,0 +1,132 @@
+@model IEnumerable<HospedajeMvc.Models.Habitacion>
+
+@{
+    ViewData["Title"] = "Listado de Habitaciones";
+}
+
+<div class="container mt-4">
+
+    <!-- ENCABEZADO Y BOTONES DE ACCIÓN -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center border-bottom pb-3 mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">
+                <i class="bi bi-door-open-fill text-primary"></i> Control de Habitaciones
+            </h2>
+            <p class="text-muted small mb-0">Mantenimiento general de las habitaciones registradas en el sistema</p>
+        </div>
+
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+            <a asp-action="Create" class="btn btn-success fw-bold px-3 shadow-sm">
+                <i class="bi bi-plus-circle-fill"></i> Registrar Habitación
+            </a>
+            <a asp-controller="Habitacion" asp-action="Buscar" class="btn btn-outline-primary px-3 shadow-sm">
+                <i class="bi bi-search"></i> Módulo de Búsqueda
+            </a>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN DE ÉXITO -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- CONTENEDOR DE LA TABLA ESTILIZADA -->
+    <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark text-uppercase fs-7 tracking-wider">
+                    <tr>
+                        <th class="ps-4">@Html.DisplayNameFor(model => model.FirstOrDefault().HabitacionId)</th>
+                        <th class="text-center">Tipo de habitación</th>
+                        <th class="text-center">Tarifa por noche</th>
+                        <th class="text-center">¿Tiene TV satelital?</th>
+                        <th class="text-end pe-4">Acciones y Gestión</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <!-- Corregido a colspan="5" para que abarque todo el ancho real de la tabla -->
+                            <td colspan="5" class="text-center py-5 text-muted fs-5">
+                                <i class="bi bi-inbox-fill d-block fs-1 opacity-50 mb-2"></i>
+                                No hay habitaciones registradas en este momento.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <!-- Número o ID de Habitación -->
+                                <td class="ps-4 fw-bold text-primary">
+                                    @Html.DisplayFor(modelItem => item.HabitacionId)
+                                </td>
+
+                                <!-- Tipo de Habitación Centrado -->
+                                <td class="text-center">
+                                    <span class="badge bg-light text-dark border px-3 py-2 fw-semibold">
+                                        @item.TipoHabitacion
+                                    </span>
+                                </td>
+
+                                <!-- Tarifa por Noche con formato de dólares ($)-->
+                                <td class="text-center fw-bold text-success">
+                                    $@String.Format("{0:N2}", item.TarifaPorNoche)
+                                </td>
+
+                                <!-- Estado de TV Satelital con distintivos visuales (Badges) -->
+                                <td class="text-center">
+                                    @if (item.TieneTvSatelital)
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">
+                                            <i class="bi bi-tv-fill"></i> Incluido
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill">
+                                            <i class="bi bi-tv"></i> No posee
+                                        </span>
+                                    }
+                                </td>
+
+                                <!-- Botones de Gestión -->
+                                <td class="text-end pe-4">
+                                    <div class="btn-group gap-1" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.HabitacionId" class="btn btn-sm btn-outline-primary rounded shadow-sm" title="Editar datos">
+                                            <i class="bi bi-pencil-fill"></i> <span class="d-none d-sm-inline">Editar</span>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.HabitacionId" class="btn btn-sm btn-outline-danger rounded shadow-sm" title="Eliminar registro">
+                                            <i class="bi bi-trash3-fill"></i> <span class="d-none d-sm-inline">Eliminar</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fs-7 {
+        font-size: 0.82rem;
+    }
+
+    .tracking-wider {
+        letter-spacing: 0.05em;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(248, 249, 250, 0.85);
+    }
+</style>

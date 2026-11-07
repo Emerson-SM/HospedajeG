@@ -1,0 +1,106 @@
+@model HospedajeMvc.Models.Reservacion
+
+@{
+    ViewData["Title"] = "Eliminar Reservación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm border-2 rounded-3 mb-4" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-octagon-fill fs-4 me-2"></i>
+                        <div>
+                            <strong class="d-block">Operación Cancelada</strong>
+                            @TempData["ErrorMessage"]
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-danger text-white text-center py-4">
+                    <div class="fs-1 mb-1"><i class="bi bi-calendar-x-fill"></i></div>
+                    <h3 class="mb-0 fw-bold">¿Eliminar la Reservación?</h3>
+                    <p class="text-white-50 small mb-0">Esta acción removerá el espacio de la agenda del hotel inmediatamente.</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <p class="text-muted text-center mb-4">Por favor verifique los datos antes de proceder con el borrado:</p>
+
+                    <div class="bg-light p-3 rounded-3 mb-4 border-start border-danger border-3">
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Código Reservación:</div>
+                            <div class="col-sm-7 fw-bold text-dark">@Model.ReservacionId</div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Identificación Cliente:</div>
+                            <div class="col-sm-7 fw-bold text-primary font-monospace">@Model.ClienteId</div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">N° de Habitación:</div>
+                            <div class="col-sm-7 fw-bold text-dark">
+                                <span class="badge bg-dark text-white px-2 py-1">Habitación @Model.HabitacionId</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Estancia Completa:</div>
+                            <div class="col-sm-7 fw-semibold text-dark small">
+                                <!-- CORREGIDO: Cambiado FechaIngreso por FechaInicio -->
+                                <div class="mb-1"><i class="bi bi-box-arrow-in-right text-success me-1"></i>@Model.FechaInicio.ToString("dd/MM/yyyy")</div>
+                                <div><i class="bi bi-box-arrow-left text-danger me-1"></i>@Model.FechaSalida.ToString("dd/MM/yyyy")</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Duración y Huéspedes:</div>
+                            <div class="col-sm-7 fw-semibold text-dark">
+                                <!-- CORREGIDO: Se calcula la diferencia de días al vuelo ya que se quitó CantidadNoches del modelo -->
+                                @((Model.FechaSalida - Model.FechaInicio).Days) noches / @Model.CantidadPersonas personas
+                            </div>
+                        </div>
+
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Monto Total Liquidado:</div>
+                            <div class="col-sm-7 fw-bold text-success">@Model.MontoTotal.ToString("C")</div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="col-sm-5 text-muted fw-semibold">Estado Actual:</div>
+                            <div class="col-sm-7 fw-bold">
+                                @if (Model.Estado != null && (Model.Estado.ToLower() == "reservada" || Model.Estado.ToLower() == "en proceso"))
+                                {
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">@Model.Estado</span>
+                                }
+                                else if (Model.Estado != null && Model.Estado.ToLower() == "finalizada")
+                                {
+                                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill">@Model.Estado</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded-pill">@Model.Estado</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="ReservacionId" />
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-trash-fill"></i> Eliminar Permanentemente
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary text-center">
+                                Cancelar y Conservar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

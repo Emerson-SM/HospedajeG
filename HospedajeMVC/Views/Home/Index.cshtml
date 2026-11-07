@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Inicio - Gestor de Hospedajes";
+}
+
+<!-- Coloqué una plantilla de botstrap algo diferente a la que trae por defecto,
+ya he utilizado esto en otros proyectos personales -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <div class="display-1 text-primary mb-2">
+            <i class="bi bi-hotel text-success"></i>
+        </div>
+        <h1 class="display-4 fw-bold text-dark">Hospedaje Guanacaste S.A.</h1>
+        <p class="lead text-muted fs-4">Sistema Centralizado - Gestor de Hospedajes</p>
+        <div class="mx-auto bg-success rounded" style="width: 80px; height: 4px;"></div>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-9 col-lg-8">
+            <h4 class="text-center text-secondary mb-4 fw-semibold">Módulos del Sistema</h4>
+
+            <div class="row g-3 text-center">
+                <div class="col-6 col-sm-3">
+                    <a asp-controller="Cliente" asp-action="Index" class="btn btn-outline-primary btn-lg w-100 py-3 shadow-sm rounded-3 transition-hover">
+                        <div class="fs-2 mb-2"><i class="bi bi-people-fill"></i></div>
+                        <span class="fw-bold fs-6">Clientes</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-sm-3">
+                    <a asp-controller="Empleado" asp-action="Index" class="btn btn-outline-primary btn-lg w-100 py-3 shadow-sm rounded-3 transition-hover">
+                        <div class="fs-2 mb-2"><i class="bi bi-person-badge-fill"></i></div>
+                        <span class="fw-bold fs-6">Empleados</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-sm-3">
+                    <a asp-controller="Habitacion" asp-action="Index" class="btn btn-outline-primary btn-lg w-100 py-3 shadow-sm rounded-3 transition-hover">
+                        <div class="fs-2 mb-2"><i class="bi bi-door-closed-fill"></i></div>
+                        <span class="fw-bold fs-6">Habitaciones</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-sm-3">
+                    <a asp-controller="Reservacion" asp-action="Index" class="btn btn-outline-success btn-lg w-100 py-3 shadow-sm rounded-3 text-white bg-success transition-hover">
+                        <div class="fs-2 mb-2"><i class="bi bi-calendar-check-fill"></i></div>
+                        <span class="fw-bold fs-6">Reservas</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <hr class="my-5 opacity-25" />
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 bg-light shadow-sm rounded-3 text-center">
+                <div class="card-body p-4">
+                    <div class="text-muted small uppercase fw-bold mb-2 tracking-wider text-success">
+                        <i class="bi bi-mortarboard-fill"></i> Developed by:
+                    </div>
+                    <h5 class="card-title fw-bold text-dark mb-1">Emerson Solano Montero</h5>
+
+                    <div class="border-top pt-3 mt-2 text-secondary small">
+                        <div class="mb-1"><strong class="text-dark"></strong> San José, Costa Rica</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Transiciones en los botones de navegación -->
+<style>
+    .transition-hover {
+        transition: all 0.2s ease-in-out;
+    }
+    .transition-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>

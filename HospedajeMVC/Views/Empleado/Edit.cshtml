@@ -1,0 +1,326 @@
+@model HospedajeMvc.Models.Empleado
+
+@{
+    ViewData["Title"] = "Modificar Colaborador";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+                <!-- Encabezado corporativo de edición -->
+                <div class="card-header bg-dark text-white text-center py-4">
+                    <h2 class="mb-0 fw-bold"><i class="bi bi-pencil-square"></i> Actualizar Ficha de Empleado</h2>
+                    <p class="text-white-50 mb-0">Modifique los datos laborales o personales necesarios</p>
+                </div>
+
+                <div class="card-body p-5">
+                    <form asp-action="Edit" method="post" id="frmEmpleadoEdit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4 text-center"></div>
+
+                        <!-- ID Oculto para asegurar el binding en el POST -->
+                        <input type="hidden" asp-for="EmpleadoId" />
+
+                        <!-- SECCIÓN 1: INFORMACIÓN PERSONAL -->
+                        <h5 class="text-primary border-bottom pb-2 mb-4">Información Personal</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="TipoIdentificacion" class="form-label fw-bold">Tipo de Identificación</label>
+                                <select asp-for="TipoIdentificacion" asp-items="ViewBag.TiposIdentificacion" class="form-select border-primary" id="TipoIdentificacion">
+                                    <option value="">-- Seleccione un tipo --</option>
+                                </select>
+                                <span asp-validation-for="TipoIdentificacion" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="EmpleadoId" class="form-label fw-bold">Número de Identificación</label>
+                                <input asp-for="EmpleadoId" class="form-control bg-light" id="EmpleadoId" readonly />
+                                <span asp-validation-for="EmpleadoId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NombreEmpleado" class="form-label fw-bold"></label>
+                                <input asp-for="NombreEmpleado" class="form-control" />
+                                <span asp-validation-for="NombreEmpleado" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PrimerApellidoEmpleado" class="form-label fw-bold"></label>
+                                <input asp-for="PrimerApellidoEmpleado" class="form-control" />
+                                <span asp-validation-for="PrimerApellidoEmpleado" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SegundoApellidoEmpleado" class="form-label fw-bold"></label>
+                                <input asp-for="SegundoApellidoEmpleado" class="form-control" />
+                                <span asp-validation-for="SegundoApellidoEmpleado" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="FechaNacimientoEmpleado" class="form-label fw-bold"></label>
+                                <input asp-for="FechaNacimientoEmpleado" type="date" class="form-control" />
+                                <span asp-validation-for="FechaNacimientoEmpleado" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 2: INFORMACIÓN LABORAL -->
+                        <h5 class="text-primary border-bottom pb-2 mb-4 mt-5">Información Laboral</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label asp-for="Categoria" class="form-label fw-bold"></label>
+                                <select asp-for="Categoria" class="form-select border-primary">
+                                    <option value="">-- Seleccione un puesto --</option>
+                                    <option value="Mesero">Mesero</option>
+                                    <option value="Salonero">Salonero</option>
+                                    <option value="Lavaplatos">Lavaplatos</option>
+                                    <option value="Recepcionista">Recepcionista</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Mantenimiento">Mantenimiento</option>
+                                    <option value="Cocinero">Cocinero</option>
+                                    <option value="Chef">Chef</option>
+                                    <option value="Limpieza">Limpieza</option>
+                                    <option value="Cocina">Cocina</option>
+                                    <option value="Seguridad">Seguridad</option>
+                                    <option value="Atención al cliente">Atención al cliente</option>
+                                    <option value="Guía turístico">Guía turístico</option>
+                                    <option value="Encargado de reservaciones">Encargado de reservaciones</option>
+                                </select>
+                                <span asp-validation-for="Categoria" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="SalarioMensual" class="form-label fw-bold"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₡</span>
+                                    <input asp-for="SalarioMensual" class="form-control" />
+                                </div>
+                                <span asp-validation-for="SalarioMensual" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="FechaIngreso" class="form-label fw-bold"></label>
+                                <input asp-for="FechaIngreso" type="date" class="form-control" />
+                                <span asp-validation-for="FechaIngreso" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 3: UBICACIÓN GEOGRÁFICA -->
+                        <h5 class="text-primary border-bottom pb-2 mb-4 mt-5">Ubicación y Domicilio</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label asp-for="Provincia" class="form-label fw-bold"></label>
+                                <select asp-for="Provincia" class="form-select border-primary" id="cboProvincia">
+                                    <option value="">-- Seleccione Provincia --</option>
+                                </select>
+                                <span asp-validation-for="Provincia" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Canton" class="form-label fw-bold"></label>
+                                <select asp-for="Canton" class="form-select" id="cboCanton" disabled>
+                                    <option value="">-- Seleccione Cantón --</option>
+                                </select>
+                                <span asp-validation-for="Canton" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Distrito" class="form-label fw-bold"></label>
+                                <select asp-for="Distrito" class="form-select" id="cboDistrito" disabled>
+                                    <option value="">-- Seleccione Distrito --</option>
+                                </select>
+                                <span asp-validation-for="Distrito" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="DireccionExacta" class="form-label fw-bold"></label>
+                                <textarea asp-for="DireccionExacta" class="form-control" rows="2" placeholder="Otras señas..."></textarea>
+                                <span asp-validation-for="DireccionExacta" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- ZONA DE ACCIONES -->
+                        <div class="d-grid gap-2 mt-5 pt-3">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-save-fill"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                Cancelar y Regresar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // ==========================================
+        // 1. LÓGICA DE VALIDACIÓN POR TIPO DE ID
+        // ==========================================
+        function validarFormatoIdentificacion() {
+            const tipo = $('#TipoIdentificacion').val();
+            const idInput = $('#EmpleadoId');
+            const valor = idInput.val().trim();
+            const errorSpan = $('span[data-valmsg-for="EmpleadoId"]');
+
+            // Limpiar mensaje previo
+            errorSpan.text('').removeClass('field-validation-error').addClass('field-validation-valid');
+
+            if (!valor || !tipo) return true;
+
+            let regex = null;
+            let mensajeError = "";
+
+            switch (tipo) {
+                case "1":
+                case "F":
+                case "Cedula":
+                case "Cédula":
+                case "Física":
+                    // Formato X-XXXX-XXXX (1 dígito - 4 dígitos - 4 dígitos)
+                    regex = /^[1-9]-\d{4}-\d{4}$/;
+                    mensajeError = "La cédula física debe tener el formato 1-1111-1111.";
+                    break;
+
+                case "2":
+                case "D":
+                case "Dimex":
+                case "DIMEX":
+                    regex = /^\d{11,12}$/;
+                    mensajeError = "El DIMEX debe tener entre 11 y 12 dígitos numéricos.";
+                    break;
+
+                case "3":
+                case "P":
+                case "Pasaporte":
+                    regex = /^[a-zA-Z0-9]{6,15}$/;
+                    mensajeError = "El pasaporte debe ser alfanumérico (entre 6 y 15 caracteres).";
+                    break;
+
+                case "4":
+                case "J":
+                case "Juridica":
+                case "Jurídica":
+                    // Formato X-XXX-XXXXXX (3-101-123456)
+                    regex = /^\d{1}-\d{3}-\d{6}$/;
+                    mensajeError = "La cédula jurídica debe tener el formato 3-101-123456.";
+                    break;
+            }
+
+            if (regex && !regex.test(valor)) {
+                errorSpan.text(mensajeError).removeClass('field-validation-valid').addClass('field-validation-error');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Validar al cambiar el tipo de identificación
+        $('#TipoIdentificacion').on('change', function() {
+            validarFormatoIdentificacion();
+        });
+
+        // Ejecutar validación inicial al cargar para verificar los datos persistidos
+        $(document).ready(function() {
+            validarFormatoIdentificacion();
+        });
+
+        // Intercepta el submit si no pasa la expresión regular
+        $('#frmEmpleadoEdit').on('submit', function(e) {
+            if (!validarFormatoIdentificacion()) {
+                e.preventDefault();
+            }
+        });
+
+
+        // ==========================================
+        // 2. LÓGICA DE GEOGRAFÍA (PROVINCIA/CANTÓN/DISTRITO)
+        // ==========================================
+        let divisionTerritorial = {};
+
+        const provinciaInicial = "@Model?.Provincia";
+        const cantonInicial = "@Model?.Canton";
+        const distritoInicial = "@Model?.Distrito";
+
+        const cboProvincia = document.getElementById("cboProvincia");
+        const cboCanton = document.getElementById("cboCanton");
+        const cboDistrito = document.getElementById("cboDistrito");
+
+        fetch('/json/costarica.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("No se pudo cargar el archivo JSON");
+                }
+                return response.json();
+            })
+            .then(data => {
+                divisionTerritorial = data;
+                inicializarProvincias();
+
+                if (provinciaInicial) {
+                    cboProvincia.value = provinciaInicial;
+                    cargarCantones(provinciaInicial);
+
+                    if (cantonInicial) {
+                        cboCanton.value = cantonInicial;
+                        cargarDistritos(provinciaInicial, cantonInicial);
+
+                        if (distritoInicial) {
+                            cboDistrito.value = distritoInicial;
+                        }
+                    }
+                }
+            })
+            .catch(error => console.error("Error al cargar el mapa geográfico:", error));
+
+        function inicializarProvincias() {
+            const provincias = Object.keys(divisionTerritorial);
+            provincias.forEach(provincia => {
+                const option = document.createElement("option");
+                option.value = provincia;
+                option.textContent = provincia;
+                cboProvincia.appendChild(option);
+            });
+        }
+
+        function cargarCantones(provincia) {
+            cboCanton.innerHTML = '<option value="">-- Seleccione Cantón --</option>';
+            cboDistrito.innerHTML = '<option value="">-- Seleccione Distrito --</option>';
+            cboCanton.disabled = true;
+            cboDistrito.disabled = true;
+
+            if (provincia && divisionTerritorial[provincia]) {
+                const cantones = Object.keys(divisionTerritorial[provincia]);
+                cantones.forEach(canton => {
+                    const option = document.createElement("option");
+                    option.value = canton;
+                    option.textContent = canton;
+                    cboCanton.appendChild(option);
+                });
+                cboCanton.disabled = false;
+            }
+        }
+
+        function cargarDistritos(provincia, canton) {
+            cboDistrito.innerHTML = '<option value="">-- Seleccione Distrito --</option>';
+            cboDistrito.disabled = true;
+
+            if (provincia && canton && divisionTerritorial[provincia] && divisionTerritorial[provincia][canton]) {
+                const distritos = divisionTerritorial[provincia][canton];
+                distritos.forEach(distrito => {
+                    const option = document.createElement("option");
+                    option.value = distrito;
+                    option.textContent = distrito;
+                    cboDistrito.appendChild(option);
+                });
+                cboDistrito.disabled = false;
+            }
+        }
+
+        cboProvincia.addEventListener("change", function() {
+            cargarCantones(this.value);
+        });
+
+        cboCanton.addEventListener("change", function() {
+            cargarDistritos(cboProvincia.value, this.value);
+        });
+    </script>
+}

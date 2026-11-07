@@ -1,0 +1,87 @@
+@model HospedajeMvc.Models.Habitacion
+
+@{
+    ViewData["Title"] = "Eliminar Habitación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm border-2 rounded-3 mb-4" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-octagon-fill fs-4 me-2"></i>
+                        <div>
+                            <strong class="d-block">No se puede eliminar</strong>
+                            @TempData["ErrorMessage"]
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-danger text-white text-center py-4">
+                    <div class="fs-1 mb-1"><i class="bi bi-door-closed-fill"></i></div>
+                    <h3 class="mb-0 fw-bold">¿Eliminar Habitación?</h3>
+                    <p class="text-white-50 small mb-0">Esta operación se anulará si la habitación cuenta con enlaces en el sistema.</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <p class="text-muted text-center mb-4">Confirme si la unidad física descrita abajo debe ser dada de baja:</p>
+
+                    <div class="bg-light p-3 rounded-3 mb-4 border-start border-danger border-3">
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Número Habitación:</div>
+                            <div class="col-sm-7 fw-bold text-dark">@Html.DisplayFor(model => model.HabitacionId)</div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Tipo de Habitación:</div>
+                            <div class="col-sm-7 fw-bold text-dark">
+                                <span class="badge bg-dark text-white px-2 py-1">@Html.DisplayFor(model => model.TipoHabitacion)</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">Tarifa por Noche:</div>
+                            <div class="col-sm-7 fw-bold text-success">$@String.Format("{0:N2}", Model.TarifaPorNoche)</div>
+                        </div>
+                        <div class="row mb-2 pb-2 border-bottom border-white">
+                            <div class="col-sm-5 text-muted fw-semibold">¿Tiene TV Satelital?:</div>
+                            <div class="col-sm-7 fw-bold text-dark">
+                                @if (Model.TieneTvSatelital)
+                                {
+                                    <span class="text-success"><i class="bi bi-check-circle-fill"></i> Sí posee</span>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary"><i class="bi bi-x-circle-fill"></i> No posee</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="col-sm-5 text-muted fw-semibold">Pendientes Mantenimiento:</div>
+                            <div class="col-sm-7 text-dark fw-normal">
+                                @(string.IsNullOrWhiteSpace(Model.PendientesMantenimiento) ? "Ninguno / Al día" : Model.PendientesMantenimiento)
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="HabitacionId" />
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-trash-fill"></i> Sí, Eliminar de la Base de Datos
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary text-center">
+                                Cancelar y Mantener Unidad
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

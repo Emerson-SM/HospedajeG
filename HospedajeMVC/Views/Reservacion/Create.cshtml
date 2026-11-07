@@ -1,0 +1,118 @@
+@model HospedajeMvc.Models.Reservacion
+
+@{
+    ViewData["Title"] = "Crear Reservación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0 fw-bold"><i class="bi bi-calendar-plus-fill"></i> Nueva Reservación</h3>
+                    <small class="text-white-50">Registre un nuevo ciclo de hospedaje en el sistema</small>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 text-center"></div>
+
+                        <h5 class="text-primary border-bottom pb-2 mb-4"><i class="bi bi-link-45deg"></i> Vinculación del Registro</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="ClienteId" class="form-label fw-semibold">Identificación del Cliente</label>
+                                <input asp-for="ClienteId" class="form-control" placeholder="Ej: 1-1111-1111" />
+                                <span asp-validation-for="ClienteId" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="HabitacionId" class="form-label fw-semibold">Número de Habitación</label>
+                                <input asp-for="HabitacionId" class="form-control" placeholder="Ej: 101" />
+                                <span asp-validation-for="HabitacionId" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <h5 class="text-primary border-bottom pb-2 mb-4"><i class="bi bi-clock-history"></i> Detalles de la Estancia</h5>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FechaInicio" class="form-label fw-semibold">Fecha de Inicio</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-event"></i></span>
+                                    <input asp-for="FechaInicio" type="date" class="form-control border-primary" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                </div>
+                                <span asp-validation-for="FechaInicio" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="FechaSalida" class="form-label fw-semibold">Fecha de Salida</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-check"></i></span>
+                                    <input asp-for="FechaSalida" type="date" class="form-control border-primary" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                                </div>
+                                <span asp-validation-for="FechaSalida" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label asp-for="CantidadPersonas" class="form-label fw-semibold">Huéspedes</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-people-fill"></i></span>
+                                    <input asp-for="CantidadPersonas" type="number" min="1" class="form-control" placeholder="Cant." value="1" />
+                                </div>
+                                <span asp-validation-for="CantidadPersonas" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="PorcentajeDescuento" class="form-label fw-semibold">% Descuento</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-percent"></i></span>
+                                    <input asp-for="PorcentajeDescuento" type="number" min="0" max="100" class="form-control" value="0" />
+                                </div>
+                                <span asp-validation-for="PorcentajeDescuento" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="Estado" class="form-label fw-semibold">Estado Inicial</label>
+                                <select asp-for="Estado" class="form-select border-primary">
+                                    <option value="Reservada">Reservada</option>
+                                    <option value="Cancelada">Cancelada</option>
+                                    <option value="En proceso">En proceso</option>
+                                    <option value="Finalizada">Finalizada</option>
+                                </select>
+                                <span asp-validation-for="Estado" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <h5 class="text-primary border-bottom pb-2 mb-4"><i class="bi bi-chat-left-text"></i> Información Adicional</h5>
+                        <div class="mb-3">
+                            <label asp-for="SolicitudesEspeciales" class="form-label fw-semibold">Solicitudes Especiales</label>
+                            <textarea asp-for="SolicitudesEspeciales" class="form-control" rows="2" placeholder="Ej: Cama adicional, ingreso temprano, allergies..."></textarea>
+                            <span asp-validation-for="SolicitudesEspeciales" class="text-danger small"></span>
+                        </div>
+
+                        <hr class="mt-4" />
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-plus-circle-fill"></i> Crear Reservación
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                Cancelar y Regresar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

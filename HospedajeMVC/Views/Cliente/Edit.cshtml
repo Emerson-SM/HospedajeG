@@ -1,0 +1,86 @@
+@model HospedajeMvc.Models.Cliente
+
+@{
+    ViewData["Title"] = "Actualizar cliente";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow-lg border-0 rounded-3">
+
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h3 class="mb-0 fw-bold"><i class="bi bi-pencil-square"></i> Actualizar Cliente</h3>
+                    <small class="text-white-50">Modifique los datos necesarios del registro</small>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 text-center"></div>
+
+                        @* Clave Primaria no editable *@
+                        <input type="hidden" asp-for="ClienteId" />
+
+                        @* 1. Desplegable para Tipo de Identificación *@
+                        <div class="mb-3">
+                            <label asp-for="TipoIdentificacion" class="form-label fw-semibold"></label>
+                            <select asp-for="TipoIdentificacion" asp-items="ViewBag.TiposIdentificacion" class="form-select">
+                                <option value="">-- Seleccione un tipo --</option>
+                            </select>
+                            <span asp-validation-for="TipoIdentificacion" class="text-danger small"></span>
+                        </div>
+
+                        @* 2. Muestra la Identificación (No editable) *@
+                        <div class="mb-3 bg-light p-3 rounded-2 border-start border-primary border-3">
+                            <span class="text-muted d-block small fw-bold">Número de Identificación (No editable):</span>
+                            <span class="fs-5 fw-bold text-dark">@Model.ClienteId</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NombreCliente" class="form-label fw-semibold"></label>
+                            <input asp-for="NombreCliente" class="form-control" placeholder="Escriba el nombre..." />
+                            <span asp-validation-for="NombreCliente" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PrimerApellidoCliente" class="form-label fw-semibold"></label>
+                            <input asp-for="PrimerApellidoCliente" class="form-control" placeholder="Escriba el primer apellido..." />
+                            <span asp-validation-for="PrimerApellidoCliente" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SegundoApellidoCliente" class="form-label fw-semibold"></label>
+                            <input asp-for="SegundoApellidoCliente" class="form-control" placeholder="Escriba el segundo apellido..." />
+                            <span asp-validation-for="SegundoApellidoCliente" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="FechaNacimientoCliente" class="form-label fw-semibold"></label>
+                            <input asp-for="FechaNacimientoCliente" type="date" class="form-control" />
+                            <span asp-validation-for="FechaNacimientoCliente" class="text-danger small"></span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-save-fill"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary text-center">
+                                Cancelar y Regresar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
